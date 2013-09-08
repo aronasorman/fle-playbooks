@@ -1,0 +1,11 @@
+username: jenkins
+project_root: /home/jenkins/src
+system_packages:
+  - build-essential
+  - git
+  - python
+  - virtualenvwrapper
+  - jenkins
+project_repos:
+  - { url : 'https://github.com/learningequality/fle-internal.git', dirname: 'fle-internal'}
+  - { url : 'https://github.com/learningequality/ka-lite.git', dirname: 'ka-lite'}
