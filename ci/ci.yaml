@@ -13,13 +13,4 @@
       service: name=jenkins state=started
 
     - name: create project dir
-      file: state=directory owner=${username} path=${project_root}
-
-    - name: clone watched dirs
-      git: repo=${item.url} dest=${project_root}/${item.dirname}
-      with_items: ${project_repos}
-
-    - name: set owner to {{ username }}
-      file: state=directory owner=${username} path=${project_root}/${item.dirname}
-            recurse=yes
-      with_items: ${project_repos}
+      file: state=directory owner=${username} path=${project_root} recurse=yes
