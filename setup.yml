@@ -10,7 +10,7 @@
       group: name=wheel state=present
 
     - name: create ansible user
-      user: name=ansible state=present group=wheel
+      user: name=ansible state=present group=wheel shell=/bin/bash
 
     - name: install ssh key for seamless login
       authorized_key: user=ansible key="{{ item }}"
