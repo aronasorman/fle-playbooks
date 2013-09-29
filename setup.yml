@@ -13,8 +13,8 @@
       user: name=ansible state=present group=wheel
 
     - name: install ssh key for seamless login
-      authorized_key: user=ansible key={{ item }}
-      with_fileglob: # not with_file since it will read not by line but by space
+      authorized_key: user=ansible key="{{ item }}"
+      with_file:
         - ~/.ssh/id_rsa.pub
 
     - name: give wheel group sudo access
