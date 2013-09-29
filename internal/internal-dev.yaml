@@ -1,0 +1,28 @@
+---
+- hosts: internal-app-server
+  user: ansible
+  sudo: yes
+  vars:
+    system_packages:
+      - 'build-essential'
+      - 'python-pip'
+      - 'python-psycopg2'
+      - git
+      - nginx
+      - postgresql
+      - python
+
+  tasks:
+    - name: install system packages
+      apt: pkg={{ item }} state=installed update_cache=yes
+      with_items: ${system_packages}
+
+    - name: start postgres
+      service: name=postgresql enabled=yes state=started
+
+    - name: create kalite db
+      postgresql_db: name=kalite state=present
+      sudo_user: postgres
+
+    - name: fetch app
+      git: dest=/var/www/fle-internal repo=https://github.com/learningequality/fle-internal.git
