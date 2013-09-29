@@ -1,0 +1,21 @@
+---
+- hosts: all
+  user: root
+
+  vars:
+    sudoers_line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+  tasks:
+    - name: create wheel group
+      group: name=wheel state=present
+
+    - name: create ansible user
+      user: name=ansible state=present group=wheel
+
+    - name: install ssh key for seamless login
+      authorized_key: user=ansible key={{ item }}
+      with_fileglob: # not with_file since it will read not by line but by space
+        - ~/.ssh/id_rsa.pub
+
+    - name: give wheel group sudo access
+      lineinfile: dest=/etc/sudoers state=present regexp='^%wheel' line="{{ sudoers_line }}"
